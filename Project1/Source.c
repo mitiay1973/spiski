@@ -1,20 +1,24 @@
-#include <stdio.h>
 #include <malloc.h>
+#include <stdio.h>
 #define N 10
+
+
 struct list
 {
 	int a;
 	struct list* next;
 };
+
 typedef struct list* LOS;
+
 LOS create(int n)
 {
 	LOS los = calloc(1, sizeof(struct list));
 	LOS p1 = los, p2;
 	p1->a = 1;
-	for (size_t i = 0; i < n-1; i++)
+	for (size_t i = 0; i < n - 1; i++)
 	{
-		p2= calloc(1, sizeof(struct list));
+		p2 = calloc(1, sizeof(struct list));
 		p1->next = p2;
 		p2->a = p1->a + 1;
 		p1 = p2;
@@ -22,7 +26,8 @@ LOS create(int n)
 	p1->next = NULL;
 	return los;
 }
-void print(LOS los)
+
+void Print(LOS los)
 {
 	while (los)
 	{
@@ -31,88 +36,119 @@ void print(LOS los)
 	}
 	printf("\n");
 }
-LOS deliteElement(LOS los, int n)
+
+LOS Delete_Los(LOS los)
 {
 
-		for (size_t i = -2; i < n; i++)
-		{
-			los = los->next;
-		}
-		LOS p1 = los;
-		los->next = los->next->next;
-
-}
-LOS zamena(LOS los, int a, int b)
-{
-	LOS gol = los;
-	LOS p1=0;
-	LOS p2;
-	los = gol;
-	for (int i = -2; i < b-4; i++)
-	{
-		los = los->next;
-		if (i == a)
-		{
-			p1 = los;
-		}
-	}
-	p2 = los;
-	los= p1;
-	los = gol;
-	for (int i = -2; i < a-4; i++)
-	{
-		los = los->next;
-	}
-	los = p2;
-	return los;
-}
-void InsertElement(LOS los, LOS item, int n)
-{
-	if (n==1)
-	{
-		item->next = los;
-		los = item;
-	}
-	else
-	{
-		for (size_t i = 0; i < n-2; i++)
-		{
-			los = los->next;
-		}
-		item->next = los->next;
-		los->next = item;
-	}
-}
-LOS deliteAll(LOS los)
-{
 	LOS ind = los;
 	while (ind)
 	{
 		ind = los->next;
-		free(los);
+		
 		los = ind;
 	}
+}
 
+LOS Delete_element(LOS los, int k)
+{
+	if (k == 1)
+	{
+		 los=los->next;
+		
+	}
+	else
+	{
+	for (size_t i = 0; i < k - 2; i++)
+	{
+		los = los->next;
+	}
+	LOS p1 = los;
+	los->next = los->next->next;
+	}
+	//free(p1);
+}
+
+void Swap_element(LOS los, int a, int m)
+{
+	LOS min = los;
+	LOS max = los;
+	LOS _max = los;
+	if (a != 1) {
+		for (size_t n = -1; n < a ; n++)
+		{
+			min = min->next;
+		}
+		for (size_t n = 0; n < m-2; n++)
+		{
+			_max = _max->next;
+		}
+		LOS l2 = _max->next;
+		max = l2->next;
+		LOS l1 = min->next;
+		min->next = l2;
+		_max->next = l1;
+		l2->next = l1->next;
+		l1->next = max;
+		return los;
+	}
+	else {
+		for (size_t n = 0; n < m - 2; n++)
+		{
+			_max = _max->next;
+		}
+		LOS l2 = _max->next;
+		max = l2->next;
+		LOS l1 = min->next;
+		min->next = los;
+		_max->next = l1;
+		l2->next = l1->next;
+		l1->next = max;
+		return los;
+	}
+}
+
+LOS Insert_Into_LOS(LOS los, struct list item, int k)
+{
+	LOS el = malloc(sizeof(struct list));
+	el->a = item.a;
+	if (k == 1)
+	{
+		el->next = los;
+		los = el;
+	}
+	else
+	{
+		for (size_t i = 1; i < k - 1; i++)
+		{
+			los = los->next;
+			if (!(los->next))
+			{
+				printf("Неверный индекс");
+				break;
+			}
+		}
+		void* temp = los->next;
+		los->next = el;
+		el->next = temp;
+	}
+	return los;
 }
 
 int main()
 {
-	//LOS a = malloc(sizeof(LOS));
-	//LOS b = malloc(sizeof(LOS));
-	LOS los = create(N);
-	LOS s = los;
-	print(los);
-	los = s;
-	deliteElement(los, 1);
-	print(los);
-	los = s;
+	LOS los = create(10);
+	Print(los);
+	struct list item = {19,NULL};
 	
-	print(zamena(los, 2, 5));
-	/*LOS item = malloc(sizeof(struct list));
-	item->a = 777;
-	item->next = NULL;
-	InsertElement(los, item, 4);
-	print(los);*/
-	deliteAll(los);
+	los=Insert_Into_LOS(los, item, 1);
+	Print(los);
+	//Delete_element(los, 1);
+	//Print(los);
+	Swap_element(los, 1, 5);
+	//Delete_element(los, 2);
+	Print(los);
+	//Print(Delete_element(los, N+1));
+	
+	//Print(los);
 	return 0;
 }
