@@ -142,13 +142,9 @@ int main()
 	
 	los=Insert_Into_LOS(los, item, 1);
 	Print(los);
-	//Delete_element(los, 1);
-	//Print(los);
-	Swap_element(los, 1, 5);
-	//Delete_element(los, 2);
+	Delete_element(los, 2);
 	Print(los);
-	//Print(Delete_element(los, N+1));
-	
-	//Print(los);
+	Swap_element(los, 2, 5);
+	Print(los);
 	return 0;
 }
